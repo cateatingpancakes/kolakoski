@@ -5,25 +5,24 @@
  * published in the Journal of Integer Sequences, 2012
  * 
  * https://www.emis.de/journals/JIS/VOL15/Nilsson/nilsson5.pdf
- * 
- * 
+ *  
  */
 
 #include <iostream>
-#include <fstream>
+#include <cstdint>
 
-#define BUF_SIZE 100000 // 0,76 MiB overhead
-#define TERM_CNT 300000000 // First value of n used for a publication
+const int BUF_SIZE = 200; // For this TERM_CNT, only 46 of the 200 allocated
+                          // integers will actually be used by IncrementPointer
+const int_fast64_t TERM_CNT = 300000000;
 
-long long P[BUF_SIZE];
+int P[BUF_SIZE];
 
-long long IncrementPointer(long long k)
+int IncrementPointer(int k)
 {
     if(P[k] == 0)
     {
         P[k] = 22;
     }
-    
     if(P[k] == 11)
     {
         P[k] = 1;
@@ -46,17 +45,15 @@ long long IncrementPointer(long long k)
     }
 }
 
-using namespace std;
-
 int main()
 {
-    long long ones = 1; // Count the term K_1 = 1
-    cout << "Kolakoski sequence, O(log n) space:\n";
+    int_fast64_t ones = 1; // Count the term K_1 = 1
+    std::cout << "Kolakoski sequence, O(log n) space:\n";
 
-    for(long long i = 3; i <= TERM_CNT; i++)
+    for(int_fast64_t i = 3; i <= TERM_CNT; i++)
         ones += (IncrementPointer(0) == 1);
 
-    cout << "Found " << ones << " ones (n=" << TERM_CNT << ")\n";
+    std::cout << "Found " << ones << " ones (n=" << TERM_CNT << ")\n";
 
     return 0;
 }
